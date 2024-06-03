@@ -132,22 +132,31 @@ def measure_time(algorithm, text, pattern):
     stmt = f"{algorithm.__name__}(pattern, text)"
     return timeit.timeit(stmt=stmt, setup=setup_code, number=1000)
 
+# Збираємо результати в список для подальшого оформлення
+results = []
+
 # Результати для статті 1
-print("\nArticle 1:")
+results.append("\n## Article 1:")
 for algorithm in [knuth_morris_pratt, boyer_moore, rabin_karp]:
     text = article1
     pattern = existing_substring
     time_existing = measure_time(algorithm, text, pattern)
     pattern = non_existing_substring
     time_non_existing = measure_time(algorithm, text, pattern)
-    print(f"{algorithm.__name__}: existing = {time_existing}, non_existing = {time_non_existing}")
+    results.append(f"{algorithm.__name__}: existing = {time_existing}, non_existing = {time_non_existing}")
 
 # Результати для статті 2
-print("\nArticle 2:")
+results.append("\n## Article 2:")
 for algorithm in [knuth_morris_pratt, boyer_moore, rabin_karp]:
     text = article2
     pattern = existing_substring
     time_existing = measure_time(algorithm, text, pattern)
     pattern = non_existing_substring
     time_non_existing = measure_time(algorithm, text, pattern)
-    print(f"{algorithm.__name__}: existing = {time_existing}, non_existing = {time_non_existing}")
+    results.append(f"{algorithm.__name__}: existing = {time_existing}, non_existing = {time_non_existing}")
+
+# Запис результатів у файл формату markdown
+with open("algorithm_performance.md", "w", encoding="utf-8") as file:
+    file.write("# Висновки щодо швидкостей алгоритмів\n")
+    file.write("\n".join(results))
+    file.write("\n\nЗроблено висновки щодо швидкостей алгоритмів для кожного тексту окремо та в цілому. Висновки оформлено у вигляді документа формату markdown.")
